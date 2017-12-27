@@ -5,6 +5,7 @@ import com.example.demo.sys.service.impl.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -26,21 +27,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .anyRequest().authenticated()
+                .antMatchers("/home","/").permitAll()//访问：/home 无需登录认证权限
+                .anyRequest().authenticated() //其他所有资源都需要认证，登陆后访问
+                .antMatchers("/hello").hasAuthority("ADMIN")
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .failureUrl("/login?error")
-                .permitAll()//登录错误界面直接访问
+                .permitAll()
+                .successHandler(loginSuccessHandler())
                 .and()
                 .logout()
-                .permitAll();//注销请求可直接用
+                .permitAll()//注销请求可直接用
+                .invalidateHttpSession(true)
+                .and()
+                .rememberMe()//登录后记住用户，下次自动登录,数据库中必须存在名为persistent_logins的表
+                .tokenValiditySeconds(1209600);
     }
 
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws  Exception{
         auth.userDetailsService(customUserDetailsService);
+        auth.eraseCredentials(false);
+        auth.authenticationProvider(daoAuthenticationProvider(new DaoAuthenticationProvider()));
     }
 
 
@@ -54,4 +63,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new LoginSuccessHandler();
     }
 
+    @Bean
+    public DaoAuthenticationProvider daoAuthenticationProvider(DaoAuthenticationProvider provider){
+        provider.setHideUserNotFoundExceptions(false);
+        provider.setUserDetailsService(customUserDetailsService);
+        return provider;
+    }
 }

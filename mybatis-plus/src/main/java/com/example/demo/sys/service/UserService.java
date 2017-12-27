@@ -5,12 +5,13 @@ import com.baomidou.mybatisplus.service.IService;
 
 /**
  * <p>
- * 系统用户 服务类
+ *  服务类
  * </p>
  *
  * @author AntMa
- * @since 2017-12-26
+ * @since 2017-12-27
  */
 public interface UserService extends IService<User> {
-	
+
+    User selectByUsername(User user);
 }

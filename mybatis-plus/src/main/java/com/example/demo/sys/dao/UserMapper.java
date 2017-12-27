@@ -7,14 +7,12 @@ import org.springframework.stereotype.Repository;
 
 /**
  * <p>
-  * 系统用户 Mapper 接口
+  *  Mapper 接口
  * </p>
  *
  * @author AntMa
- * @since 2017-12-26
+ * @since 2017-12-27
  */
-@Repository
-@Mapper
 public interface UserMapper extends BaseMapper<User> {
-
+    User selectByUsername(User user);
 }

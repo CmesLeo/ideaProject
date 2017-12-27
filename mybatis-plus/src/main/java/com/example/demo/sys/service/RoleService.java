@@ -5,11 +5,11 @@ import com.baomidou.mybatisplus.service.IService;
 
 /**
  * <p>
- * 角色 服务类
+ *  服务类
  * </p>
  *
  * @author AntMa
- * @since 2017-12-26
+ * @since 2017-12-27
  */
 public interface RoleService extends IService<Role> {
 	

@@ -2,86 +2,54 @@ package com.example.demo.sys.entity;
 
 import java.io.Serializable;
 
-import com.baomidou.mybatisplus.enums.IdType;
-
-import java.util.Collection;
-import java.util.Date;
-import com.baomidou.mybatisplus.annotations.TableId;
-import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableName;
+import org.springframework.data.annotation.Transient;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 /**
  * <p>
- * 系统用户
+ * 
  * </p>
  *
  * @author AntMa
- * @since 2017-12-26
+ * @since 2017-12-27
  */
 @TableName("sys_user")
-public class User extends Model<User> implements UserDetails{
+public class User extends Model<User> implements UserDetails {
 
     private static final long serialVersionUID = 1L;
 
-	@TableId(value="user_id", type= IdType.AUTO)
-	private Long userId;
-    /**
-     * 用户名
-     */
+	private Integer id;
 	private String username;
-    /**
-     * 密码
-     */
 	private String password;
-    /**
-     * 盐
-     */
-	private String salt;
-    /**
-     * 邮箱
-     */
-	private String email;
-    /**
-     * 手机号
-     */
-	private String mobile;
-    /**
-     * 状态  0：禁用   1：正常
-     */
-	private Integer status;
-    /**
-     * 部门ID
-     */
-	@TableField("dept_id")
-	private Long deptId;
-    /**
-     * 创建时间
-     */
-	@TableField("create_time")
-	private Date createTime;
+	@Transient
+	private Collection<? extends GrantedAuthority> authorities;
 
-	public User(){
+	public User(String username, String password, List<GrantedAuthority> grantedAuthorities) {
+		super();
+    	this.username = username;
+    	this.password = password;
+    	this.authorities=grantedAuthorities;
 
-	}
-
-    public User(String username, String password, boolean b, boolean b1, boolean b2, boolean b3, List<GrantedAuthority> auths) {
-    	this.username= username;
-    	this.password=password;
     }
 
+    public User(){
 
-    public Long getUserId() {
-		return userId;
 	}
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
+
+    public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getUsername() {
@@ -125,71 +93,17 @@ public class User extends Model<User> implements UserDetails{
 		this.password = password;
 	}
 
-	public String getSalt() {
-		return salt;
-	}
-
-	public void setSalt(String salt) {
-		this.salt = salt;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getMobile() {
-		return mobile;
-	}
-
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
-
-	public Integer getStatus() {
-		return status;
-	}
-
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-
-	public Long getDeptId() {
-		return deptId;
-	}
-
-	public void setDeptId(Long deptId) {
-		this.deptId = deptId;
-	}
-
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-
 	@Override
 	protected Serializable pkVal() {
-		return this.userId;
+		return this.id;
 	}
 
 	@Override
 	public String toString() {
 		return "User{" +
-			", userId=" + userId +
+			", id=" + id +
 			", username=" + username +
 			", password=" + password +
-			", salt=" + salt +
-			", email=" + email +
-			", mobile=" + mobile +
-			", status=" + status +
-			", deptId=" + deptId +
-			", createTime=" + createTime +
 			"}";
 	}
 }

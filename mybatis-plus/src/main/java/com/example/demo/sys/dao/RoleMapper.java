@@ -6,11 +6,11 @@ import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
-  * 角色 Mapper 接口
+  *  Mapper 接口
  * </p>
  *
  * @author AntMa
- * @since 2017-12-26
+ * @since 2017-12-27
  */
 @Mapper
 public interface RoleMapper extends BaseMapper<Role> {

@@ -20,7 +20,7 @@ import java.util.*;
 public class MysqlGenerator {
     private static String packageName="mybatis-plus";    //文件路径
     private static String authorName="AntMa";     //作者
-    private static String table="sys_role";                  //table名字
+    private static String table="sys_permission";                  //table名字
     private static String prefix="sys_";                     //table前缀
     private static File file = new File(packageName);
     private static String path = file.getAbsolutePath();

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.plugins.PerformanceInterceptor;
 import org.apache.ibatis.mapping.DatabaseIdProvider;
 import org.apache.ibatis.plugin.Interceptor;
+import org.mybatis.spring.annotation.MapperScan;
 import org.mybatis.spring.boot.autoconfigure.MybatisProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.bind.RelaxedPropertyResolver;
@@ -24,6 +25,7 @@ import java.sql.SQLException;
  */
 @Configuration
 @EnableConfigurationProperties(MybatisProperties.class)
+@MapperScan("com.example.demo.sys.dao*")
 public class MybatisPlusConfig {
     @Autowired
     private Environment environment;

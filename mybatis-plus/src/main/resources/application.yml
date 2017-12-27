@@ -1,15 +1,14 @@
+#mybatis
+mybatis:
+  mapper-locations: classpath*:/mapper/*Mapper.xml
+  typeAliasesPackage: com.example.demo.sys.dao
+logging:
+  level: warn
+#logging
+
 spring:
   devtools:
     restart:
       enabled: true
   profiles:
     active: dev
-
-#mybatis
-mybatis:
-  mapper-locations: classpath*:/mapper/**Mapper.xml
-  type-aliases-package: com.example.demo.sys.dao.*
-logging:
-  level: warn
-#logging
-
