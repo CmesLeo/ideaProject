@@ -1,6 +1,6 @@
 #mybatis
-mybatis:
-  mapper-locations: classpath*:/mapper/*Mapper.xml
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*.xml
   typeAliasesPackage: com.example.demo.sys.dao
 logging:
   level: warn

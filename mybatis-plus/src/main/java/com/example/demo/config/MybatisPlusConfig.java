@@ -24,7 +24,6 @@ import java.sql.SQLException;
  * Created by dongao on 2017/12/26.
  */
 @Configuration
-@EnableConfigurationProperties(MybatisProperties.class)
 @MapperScan("com.example.demo.sys.dao*")
 public class MybatisPlusConfig {
     @Autowired

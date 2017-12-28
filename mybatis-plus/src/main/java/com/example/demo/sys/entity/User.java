@@ -3,6 +3,7 @@ package com.example.demo.sys.entity;
 import java.io.Serializable;
 
 import com.baomidou.mybatisplus.activerecord.Model;
+import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
 import org.springframework.data.annotation.Transient;
 import org.springframework.security.core.GrantedAuthority;
@@ -28,7 +29,9 @@ public class User extends Model<User> implements UserDetails {
 	private Integer id;
 	private String username;
 	private String password;
-	@Transient
+	@TableField(exist = false)
+	private List<Role> roles;
+	@TableField(exist = false)
 	private Collection<? extends GrantedAuthority> authorities;
 
 	public User(String username, String password, List<GrantedAuthority> grantedAuthorities) {
@@ -43,8 +46,20 @@ public class User extends Model<User> implements UserDetails {
 
 	}
 
+    public User(Integer id, String username) {
+    	this.id = id;
+    	this.username=username;
+    }
 
-    public Integer getId() {
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
+
+	public Integer getId() {
 		return id;
 	}
 

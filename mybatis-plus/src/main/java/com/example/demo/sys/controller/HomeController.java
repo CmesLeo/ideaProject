@@ -1,6 +1,7 @@
 package com.example.demo.sys.controller;
 
 import com.example.demo.sys.service.PermissionService;
+import com.example.demo.sys.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,15 +22,19 @@ public class HomeController {
 
     @Autowired
     private PermissionService permissionService;
+    @Autowired
+    private UserService userService;
 
 
     @RequestMapping(value = {"/","/home"})
     public String getHomePage() {
-        permissionService.findAll();
+
+        System.out.println(userService.selectById(1));
         LOGGER.debug("Getting home page");
         return "home";
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/hello")
     public String toHello(Model model) {
         LOGGER.debug("Getting hello page");
@@ -37,7 +42,7 @@ public class HomeController {
         return "hello";
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "/say")
     public String say(Model model) {
         LOGGER.debug("Getting hello page");

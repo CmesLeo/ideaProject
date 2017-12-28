@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.example.demo.sys.dao.PermissionMapper;
 import com.example.demo.sys.dao.UserMapper;
 import com.example.demo.sys.entity.Permission;
+import com.example.demo.sys.entity.Role;
 import com.example.demo.sys.entity.User;
 import com.example.demo.sys.service.PermissionService;
 import com.example.demo.sys.service.UserService;
@@ -27,35 +28,22 @@ import java.util.List;
 @Component
 public class CustomUserDetailsService implements UserDetailsService{
 
-    private static Logger logger = LoggerFactory
-            .getLogger(CustomUserDetailsService.class);
     @Autowired
-    private UserService userService;
-    @Autowired
-    private PermissionService permissionService;
-
+    private UserMapper userMapper;
     @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        EntityWrapper<User> ew = new EntityWrapper<User>();
-        User user = new User();
-        ew.setEntity(user);
-        user.setUsername(s);
-        permissionService.findAll();
-        user = userService.selectByUsername(user);
-        logger.debug("查询得到用户：{}", user);
-        if (user == null || user.equals("")) {
-            throw new UsernameNotFoundException("未查询到" + s + "用户的信息");
-        }else{
-            List<Permission> permissions = permissionService.findByAdminUserId(user.getId());
-            List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-            for (Permission permission : permissions) {
-                if (permission != null && permission.getName()!=null) {
-                    GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(permission.getName());
-                    //1：此处将权限信息添加到 GrantedAuthority 对象中，在后面进行全权限验证时会使用GrantedAuthority 对象。
-                    grantedAuthorities.add(grantedAuthority);
-                }
-            }
-            return new User(user.getUsername(), user.getPassword(), grantedAuthorities);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userMapper.selectByUsername(username);
+        if(user == null){
+            throw new UsernameNotFoundException("用户名不存在");
         }
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        //用于添加用户的权限。只要把用户权限添加到authorities 就万事大吉。
+        for(Role role:user.getRoles())
+        {
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+            System.out.println(role.getName());
+        }
+        return new org.springframework.security.core.userdetails.User(user.getUsername(),
+                user.getPassword(), authorities);
     }
 }

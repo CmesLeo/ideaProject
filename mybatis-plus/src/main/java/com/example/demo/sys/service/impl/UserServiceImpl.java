@@ -6,6 +6,8 @@ import com.example.demo.sys.service.UserService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务实现类
@@ -19,7 +21,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
 
     @Override
-    public User selectByUsername(User user) {
-        return baseMapper.selectByUsername(user);
+    public User selectByUsername(String name) {
+        return baseMapper.selectByUsername(name);
     }
 }

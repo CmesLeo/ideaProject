@@ -3,6 +3,8 @@ package com.example.demo.sys.service;
 import com.example.demo.sys.entity.User;
 import com.baomidou.mybatisplus.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -13,5 +15,5 @@ import com.baomidou.mybatisplus.service.IService;
  */
 public interface UserService extends IService<User> {
 
-    User selectByUsername(User user);
+    User selectByUsername(String name);
 }
